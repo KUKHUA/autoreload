@@ -1,0 +1,3 @@
+interface IWatchCallback {
+    void onEvent();
+}
