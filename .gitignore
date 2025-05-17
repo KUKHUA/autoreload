@@ -9,3 +9,5 @@ lib
 *.jar
 /lib/*
 /lib
+build.properties
+build.properties
