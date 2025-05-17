@@ -1,0 +1,11 @@
+*.class
+*.properties
+/classes/*
+/classes/*.class
+dist/*
+/dist/*
+dist
+lib
+*.jar
+/lib/*
+/lib
