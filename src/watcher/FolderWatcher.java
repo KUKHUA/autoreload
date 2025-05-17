@@ -1,3 +1,5 @@
+package watcher;
+
 import java.io.IOException;
 import java.nio.file.ClosedWatchServiceException;
 import java.nio.file.FileSystems;
@@ -14,7 +16,7 @@ import java.util.Map;
 import java.io.UncheckedIOException;
 
 
-class FolderWatcher {
+public class FolderWatcher {
     private WatchService watcherService;
     private final Map<WatchKey, Path> keys = new HashMap<>();
 
@@ -52,15 +54,36 @@ class FolderWatcher {
         Thread watcherThread = new Thread(() -> {
             try {
                 while (true) {
-                    
+                    WatchKey key = watcherService.take();
+                    Path dir = keys.get(key);
+                    if (dir == null) continue;
+
+                    for(WatchEvent<?> event : key.pollEvents()){
+                        WatchEvent.Kind<?> kind = event.kind();
+                        if (kind == StandardWatchEventKinds.OVERFLOW) continue;
+
+                        WatchEvent<Path> ev = (WatchEvent<Path>) event;
+                        Path name = ev.context();
+                        Path child = dir.resolve(name);
+
+                        callback.onEvent();
+
+                        // register newly creeated folders.
+                        if (kind == StandardWatchEventKinds.ENTRY_CREATE && Files.isDirectory(child)) {
+                            this.registerAll(child);
+                        }
+                    }
+
+                    if(!key.reset()){
+                        keys.remove(key);
+                        if(keys.isEmpty()) break;
+                    }
                 }
-            } catch (ClosedWatchServiceException e) {
+            } catch (Exception e) {
                throw new RuntimeException("Folder watcher service closed", e);
             }
         });
-        watcherThread.setDaemon(true);
         watcherThread.start();
     }
-
 
 }
