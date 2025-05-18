@@ -16,7 +16,7 @@ import java.util.Map;
 import java.io.UncheckedIOException;
 
 
-public class FolderWatcher {
+public final class FolderWatcher {
     private WatchService watcherService;
     private final Map<WatchKey, Path> keys = new HashMap<>();
 
@@ -65,10 +65,11 @@ public class FolderWatcher {
                         WatchEvent<Path> ev = (WatchEvent<Path>) event;
                         Path name = ev.context();
                         Path child = dir.resolve(name);
+                        String changeType = kind.name();
 
-                        callback.onEvent();
+                        callback.onEvent(changeType, child.toAbsolutePath().toString());
 
-                        // register newly creeated folders.
+                        // register newly creeated folders. 
                         if (kind == StandardWatchEventKinds.ENTRY_CREATE && Files.isDirectory(child)) {
                             this.registerAll(child);
                         }

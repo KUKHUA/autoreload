@@ -102,6 +102,7 @@ public class Manager {
             }
         } catch (Exception e) {
             this.displayHelp();
+            if(e instanceof ArrayIndexOutOfBoundsException) return;
             System.out.println("---\nFailed to execute command:");
             e.printStackTrace();
             System.out.println("---");

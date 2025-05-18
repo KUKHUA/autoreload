@@ -1,18 +1,20 @@
-package http;
+package watcher;
 
-import watcher.IWatchCallback;
 import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
+import http.ClientStore; 
 
 
 
-public class SSESend implements IWatchCallback {
-    public void onEvent() {
-        System.out.println("File changed!");
+public final class SSESend implements IWatchCallback {
+    public void onEvent(String changeType, String fullPath) {
+        String changedText = "FILE: " + fullPath + " " + changeType;
+        System.out.println(changedText);
 
         for (HttpExchange client : ClientStore.get().clients()) {
             try {
-                client.getResponseBody().write("data: file changed\n\n".getBytes());
+                client.getResponseBody().write(("data:" + changedText + "\n\n").getBytes());
+
                 client.getResponseBody().flush();
 
             } catch (IOException e) {
@@ -21,5 +23,4 @@ public class SSESend implements IWatchCallback {
             }
         }
     }
-
 }

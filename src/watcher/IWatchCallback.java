@@ -1,5 +1,5 @@
 package watcher;
 
 public interface IWatchCallback {
-    void onEvent();
+    void onEvent(String changeType, String fullPath);
 }

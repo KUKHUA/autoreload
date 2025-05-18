@@ -3,7 +3,7 @@ package http;
 import com.sun.net.httpserver.HttpExchange;
 import java.util.ArrayList;
 
-public class ClientStore {
+public final class ClientStore {
 
     private ArrayList<HttpExchange> clients = new ArrayList<HttpExchange>();
     private static ClientStore instance = null;
