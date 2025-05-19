@@ -11,7 +11,9 @@ public class StartCommand implements IHandler {
     @Override
     public void handleCommand(Command command) throws Exception {
         Config config = Config.instance();
-        if(config.getDefault("sources.sse.enabled", "true") == "true"){
+        boolean sseEnabled = config.getDefault("sources.sse.enabled", "true") == "true";
+        
+        if(sseEnabled){
             String port = config.getDefault("sources.sse.port", "1234"); 
             http server = new http(Integer.parseInt(port));
             server.start();
@@ -24,7 +26,7 @@ public class StartCommand implements IHandler {
 
 
         FolderWatcher watcher = new FolderWatcher(".");
-        watcher.startWatching(new SSESend());
+        if(sseEnabled) watcher.startWatching(new SSESend());
     }
 
     @Override
