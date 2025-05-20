@@ -1,5 +1,5 @@
 *.class
-*.properties
+.changedetecter.properties
 /classes/*
 /classes/*.class
 dist/*
@@ -9,5 +9,3 @@ lib
 *.jar
 /lib/*
 /lib
-build.properties
-build.properties

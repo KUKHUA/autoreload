@@ -61,31 +61,11 @@ public class SetupCommand implements IHandler {
             stillSetup = !sc.nextBoolean();
        }
 
-       System.out.println("Do you want to enable http posts? (true/false)");
-       httpEnable = sc.nextBoolean();
-       if(httpEnable) stillSetup = true;
-
-       while(stillSetup){
-            System.out.println("What http post slot do you wish to edit? (0-9)");
-            int editSlot = sc.nextInt();
-            if(editSlot > 9 || editSlot < 0) continue;
-
-            System.out.println("What is the http post URL?");
-            sc.nextLine();
-            httpPosts[editSlot] = sc.nextLine();
-
-            System.out.println("Do you want to stop editing slots? (true/false)");
-            stillSetup = !sc.nextBoolean();
-       }
-
       config.set("sources.sse.enabled", Boolean.toString(sseEnable));
       config.set("sources.sse.port", Integer.toString(ssePort));
 
       config.set("sources.webhook.enabled", Boolean.toString(webhookEnable));
       config.set("sources.webhook.urls", String.join(",",webhooks));
-
-      config.set("sources.http.enabled", Boolean.toString(httpEnable));
-      config.set("sources.http.urls", String.join(",", httpPosts));
       
       config.save();
     }

@@ -23,14 +23,15 @@ import config.Config;
 import http.http;
 import http.SSEConnect;
 import watcher.SSESend;
-import watcher.FolderWatcher;
+import watcher.WebhookSend;
+import watcher.FolderWatcher; 
 
 public class StartCommand implements IHandler {
     @Override
     public void handleCommand(Command command) throws Exception {
         Config config = Config.instance();
-        boolean sseEnabled = config.getDefault("sources.sse.enabled", "true") == "true";
-        
+        boolean sseEnabled = config.getDefault("sources.sse.enabled", "false").equals("true");
+         
         if(sseEnabled){
             String port = config.getDefault("sources.sse.port", "1234"); 
             http server = new http(Integer.parseInt(port));
@@ -39,12 +40,13 @@ public class StartCommand implements IHandler {
             System.out.println("Started SSE Server on port " + port + ".");
         }
 
-
-
+        boolean webhookEnabled = config.getDefault("sources.webhook.enabled","false").equals("true");
+        System.out.println(webhookEnabled);
 
 
         FolderWatcher watcher = new FolderWatcher(".");
         if(sseEnabled) watcher.startWatching(new SSESend());
+        if(webhookEnabled) watcher.startWatching(new WebhookSend());
     }
 
     @Override
