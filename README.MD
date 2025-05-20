@@ -7,3 +7,7 @@ ChangeDetector is a program that detects modifications, deletions, or creations 
 - [x] Server-Sent Events (SSE) - Ideal for browser access (e.g., a script in a website's development branch can automatically connect to the SSE stream for live reloading).
 - [ ] Webhooks
 - [ ] HTTP POST
+
+## License
+
+This project is licensed under the GPLv3 License. See the [LICENSE](#) file for details.

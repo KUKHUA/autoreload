@@ -14,6 +14,8 @@
  *
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * 
+ * This has been modifed to properley handle when the user's input is nothing. - KUKHUA 
  */
 
 package Command;
