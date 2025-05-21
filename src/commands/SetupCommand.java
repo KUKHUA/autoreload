@@ -20,7 +20,7 @@ package commands;
 import Command.IHandler;
 import Command.Command;
 import java.util.Scanner;
-import config.Config;
+import misc.Config;
 
 public class SetupCommand implements IHandler {
     @Override
@@ -34,10 +34,7 @@ public class SetupCommand implements IHandler {
         String[] httpPosts = new String[10];
         String[] webhooks = new String[10];
         Scanner sc = new Scanner(System.in);
-
-       System.out.println("\t- true/false -\t");
-        config.set("test", "test");
-
+       
        System.out.println("Do you want to enable Server-Sent-Events? (true/false)");
        sseEnable = sc.nextBoolean();
        if(sseEnable){
@@ -65,7 +62,7 @@ public class SetupCommand implements IHandler {
       config.set("sources.sse.port", Integer.toString(ssePort));
 
       config.set("sources.webhook.enabled", Boolean.toString(webhookEnable));
-      config.set("sources.webhook.urls", String.join(",",webhooks));
+      config.set("sources.webhook.urls", String.join(",", webhooks));
       
       config.save();
     }

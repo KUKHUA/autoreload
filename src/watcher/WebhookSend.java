@@ -29,14 +29,16 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.stream.Stream;
-import config.Config;
+import misc.Config;
+import misc.ParseChange;
 
 public final class WebhookSend implements IWatchCallback {
     public void onEvent(String changeType, String fullPath) {
         JSONObject object = new JSONObject();
-        String eventText = String.format("A file/folder has been %s: \n%s",changeType, fullPath);
         String username = "ChangeDetector";
         String headerTitle = "📁 File System Change Detected";
+        String normalChangeType = ParseChange.parse(changeType);
+        String eventText = String.format("A file/folder has been %s: \n%s",normalChangeType, fullPath);
 
         object.put("content", eventText);
         object.put("text", eventText);
@@ -60,6 +62,7 @@ public final class WebhookSend implements IWatchCallback {
         JSONObject data = new JSONObject();
         data.put("fullPath", fullPath);
         data.put("changeType", changeType);
+        data.put("normalChangeType",normalChangeType);
         object.put("data", data);
 
         JSONArray blocks = new JSONArray();
@@ -68,13 +71,13 @@ public final class WebhookSend implements IWatchCallback {
         headerBlock.put("type", "header");
         headerBlock.put("text", new JSONObject()
         .put("type", "plain_text")
-        .put("text", headerTitle));
+        .put("text", headerTitle)); 
 
         JSONObject sectionBlock = new JSONObject();
         sectionBlock.put("type", "section");
 
         JSONArray fields = new JSONArray();
-        fields.put(new JSONObject().put("type", "mrkdwn").put("text", "*Type:*\n" + changeType));
+        fields.put(new JSONObject().put("type", "mrkdwn").put("text", "*Type:*\n" + normalChangeType));
         fields.put(new JSONObject().put("type", "mrkdwn").put("text", "*Path:*\n" + fullPath));
         sectionBlock.put("fields", fields);
 

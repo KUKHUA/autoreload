@@ -19,7 +19,7 @@
 package commands;
 import Command.IHandler;
 import Command.Command;
-import config.Config;
+import misc.Config;
 import http.http;
 import http.SSEConnect;
 import watcher.SSESend;
