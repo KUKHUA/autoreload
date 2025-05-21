@@ -37,7 +37,7 @@ public final class WebhookSend implements IWatchCallback {
         JSONObject object = new JSONObject();
         String username = "ChangeDetector";
         String normalChangeType = ParseChange.parse(changeType);
-        String headerTitle = "📁 Filesystem " + ParseChange.parseion(changeType); + " detected.";
+        String headerTitle = "📁 Filesystem " + ParseChange.parseion(changeType) + " detected.";
         String eventText = String.format("A file/folder has been %s: \n%s",normalChangeType, fullPath);
 
         object.put("content", eventText);
