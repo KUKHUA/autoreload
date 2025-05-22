@@ -31,15 +31,24 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 import misc.Config;
 import misc.ParseChange;
+import java.nio.file.Path;
+import misc.FileFilter;
 
 
 public final class WebhookSend implements IWatchCallback {
-    public void onEvent(String changeType, String fullPath) {
+    public void onEvent(String changeType, String fullPath, Path path) {
+        if(!FileFilter.isAllowed(path)) return;
+
+        try {
+            fullPath = path.toRealPath().toString();
+        } catch(Exception e){}
+
         JSONObject object = new JSONObject(); 
         String username = "ChangeDetector";
         String normalChangeType = ParseChange.parse(changeType);
+        String typeOfObject = FileFilter.objectType(path);
         String headerTitle = "📁 Filesystem " + ParseChange.parseion(changeType) + " detected."; 
-        String eventText = String.format("A file/folder has been %s: \n%s",normalChangeType, fullPath);
+        String eventText = String.format("A %s has been %s: \n%s",typeOfObject, normalChangeType, fullPath);
 
         object.put("content", eventText);
         object.put("text", eventText);
@@ -52,7 +61,7 @@ public final class WebhookSend implements IWatchCallback {
         JSONObject discordEmbed = new JSONObject();
         discordEmbed.put("title", headerTitle);
 
-        discordEmbed.put("description", String.format("**Type**:%s\n**Path**:%s",changeType,fullPath));
+        discordEmbed.put("description", String.format("**Event**: %s\n**Path**: %s\n**Type**: %s",normalChangeType, fullPath, typeOfObject));
 
         discordEmbed.put("color", 16776960);
         embeds.put(discordEmbed);

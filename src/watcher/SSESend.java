@@ -22,10 +22,14 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import http.ClientStore; 
 import org.json.JSONObject;
+import java.nio.file.Path;
+import misc.FileFilter;
 
 
 public final class SSESend implements IWatchCallback {
-    public void onEvent(String changeType, String fullPath) {
+    public void onEvent(String changeType, String fullPath, Path path) {
+        if(!FileFilter.isAllowed(path)) return;
+
         JSONObject object = new JSONObject();
         object.put("changedType", changeType);
         object.put("fullPath", fullPath);

@@ -85,7 +85,7 @@ public final class FolderWatcher {
                         Path child = dir.resolve(name);
                         String changeType = kind.name();
 
-                        callback.onEvent(changeType, child.toAbsolutePath().toString());
+                        callback.onEvent(changeType, child.toString(), child.toAbsolutePath());
 
                         // register newly creeated folders. 
                         if (kind == StandardWatchEventKinds.ENTRY_CREATE && Files.isDirectory(child)) {
