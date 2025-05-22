@@ -32,12 +32,13 @@ import java.util.stream.Stream;
 import misc.Config;
 import misc.ParseChange;
 
+
 public final class WebhookSend implements IWatchCallback {
     public void onEvent(String changeType, String fullPath) {
-        JSONObject object = new JSONObject();
+        JSONObject object = new JSONObject(); 
         String username = "ChangeDetector";
         String normalChangeType = ParseChange.parse(changeType);
-        String headerTitle = "📁 Filesystem " + ParseChange.parseion(changeType) + " detected.";
+        String headerTitle = "📁 Filesystem " + ParseChange.parseion(changeType) + " detected."; 
         String eventText = String.format("A file/folder has been %s: \n%s",normalChangeType, fullPath);
 
         object.put("content", eventText);

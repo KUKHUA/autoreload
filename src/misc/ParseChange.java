@@ -26,7 +26,7 @@ public class ParseChange {
 
             case "ENTRY_DELETE":
                 return "deletion";
-                
+
             default:
                 return toTranslate;
         }
