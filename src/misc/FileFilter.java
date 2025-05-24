@@ -1,4 +1,22 @@
-package misc;
+/*
+ * ChangeDetector -  detects modifications, deletions, or creations of files and folders.
+ * Copyright (C) 2025 KUKHUA
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
+package misc; 
 
 import java.nio.file.*; 
 
@@ -6,21 +24,16 @@ public class FileFilter {
 
     public static boolean isAllowed(Path path) {
         try {
-            System.out.println(path.getParent().toString());
-
             if (path.getParent().toString().chars().filter(ch -> ch == '.').count() == 2) return false; // hidden folders
-            //if(path.getFileName().contains(".")) return false;
 
-            if (path.getFileName().toString().endsWith(".part")) {
-                return false;
-            } // parts of a file
+            if (path.getFileName().toString().endsWith(".part")) return false; // hide parts of a file
 
              if (Files.exists(path)) {
                 path = path.toRealPath(); 
 
-                if(Files.isHidden(path)) return false;//hide hidden files that exist
+                if(Files.isHidden(path)) return false; //hide hidden files that exist
             } else {
-                return !path.getFileName().toString().startsWith("."); // hide hidden files that dont exist, and files that dont exist
+                return !path.getFileName().toString().startsWith("."); // hide hidden files that dont exist, and show files that dont exist yet are not hidden
             }
 
             return true;

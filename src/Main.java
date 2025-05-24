@@ -21,10 +21,17 @@ import java.io.IOException;
 import watcher.FolderWatcher;
 import commands.SetupCommand;
 import commands.StartCommand;
+import ANSI.Get;
 
 public class Main  {
     public static void main(String[] args) { 
-       Manager appManager = new Manager("changedetecter - ","1","Detects modifications, deletions, or creations of files/folders within the current directory.");
+       String unsetFront = ANSI.Get.unsetFront();
+
+       String programName = String.format("%schangedetecter%s -", ANSI.Get.setFront(36), unsetFront);
+
+       String programDescription = String.format("Detects %smodifications%s, %sdeletions%s, or %screations%s of files/folders within the %scurrent directory%s.", ANSI.Get.setFront(27), unsetFront, ANSI.Get.setFront(196), unsetFront, ANSI.Get.setFront(70), unsetFront, ANSI.Get.setBold(), ANSI.Get.unsetBold());
+
+       Manager appManager = new Manager(programName, "1", programDescription);
 
        appManager.register("setup", new SetupCommand());
        appManager.register("start", new StartCommand());

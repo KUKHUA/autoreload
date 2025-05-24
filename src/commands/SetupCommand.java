@@ -21,6 +21,7 @@ import Command.IHandler;
 import Command.Command;
 import java.util.Scanner;
 import misc.Config;
+import ANSI.Print;
 
 public class SetupCommand implements IHandler {
     @Override
@@ -34,27 +35,49 @@ public class SetupCommand implements IHandler {
         String[] httpPosts = new String[10];
         String[] webhooks = new String[10];
         Scanner sc = new Scanner(System.in);
-       
+
+       ANSI.Print.setFront(93);
        System.out.println("Do you want to enable Server-Sent-Events? (true/false)");
+       ANSI.Print.unsetFront();
+
        sseEnable = sc.nextBoolean();
        if(sseEnable){
+            ANSI.Print.setFront(93);
             System.out.println("At what port? (integer)");
+            ANSI.Print.unsetFront();
             ssePort = sc.nextInt(); 
        }
 
+       ANSI.Print.setFront(93);
        System.out.println("Do you want to enable webhooks? (true/false)");
+       ANSI.Print.unsetFront();
        webhookEnable = sc.nextBoolean();
        if(webhookEnable) stillSetup = true;
-       while(stillSetup){
-            System.out.println("What webhook slot do you wish to edit? (0-9)");
-            int editSlot = sc.nextInt();
-            if(editSlot > 9 || editSlot < 0) continue;
 
+       while(stillSetup){
+            ANSI.Print.setFront(93);
+            System.out.println("What webhook slot do you wish to edit? (0-9)");
+            ANSI.Print.unsetFront();
+
+            int editSlot = sc.nextInt();
+            if(editSlot > 9 || editSlot < 0) {
+                ANSI.Print.setFront(196);
+                System.out.println("Invaild slot number, try again.");
+                ANSI.Print.unsetFront();
+                continue;
+            }
+
+            ANSI.Print.setFront(93);
             System.out.println("What is the webhook URL?");
+            ANSI.Print.unsetFront();
+
             sc.nextLine();
             webhooks[editSlot] = sc.nextLine();
 
+            ANSI.Print.setFront(93);
             System.out.println("Do you want to stop editing slots? (true/false)");
+            ANSI.Print.unsetFront();
+
             stillSetup = !sc.nextBoolean();
        }
 

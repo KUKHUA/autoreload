@@ -15,13 +15,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  * 
- * This has been modifed to properley handle when the user's input is nothing. - KUKHUA 
+ * This has been modifed to properley handle when the user's input is nothing, aswell as to add cool colors. - KUKHUA 
  */
 
 package Command;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import ANSI.Get;
+import ANSI.Print;
 
 /**
  * Manages the CLI app, registers {@link IHandler}s and executes {@link Command}s.
@@ -92,14 +94,18 @@ public class Manager {
                 } catch (Exception e) {
                     throw new RuntimeException(
                         String.format(
-                            "The command %s failed, %s",
+                            "%sThe command %s failed%s, %s",
+                            ANSI.Get.setFront(196),
                             command.prefix(),
+                            ANSI.Get.unsetFront(),
                             e.getMessage()
                         )
                     );
                 }
             } else {
+                ANSI.Print.setFront(196);
                 System.out.println("Command not found.");
+                ANSI.Print.unsetFront();
                 this.displayHelp();
             }
         } catch (Exception e) {
@@ -129,7 +135,7 @@ public class Manager {
     public void register(String commandName, IHandler handler) {
         commands.put(commandName, handler);
         this.helpInfo.add(
-                String.format("%s - %s\n", commandName, handler.getHelpInfo())
+             ANSI.Get.setBold() + commandName + ANSI.Get.unsetBold() +  ANSI.Get.setDim() + " - " + ANSI.Get.unsetDim() + handler.getHelpInfo()
             );
     }
 
