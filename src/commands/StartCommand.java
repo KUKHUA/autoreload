@@ -44,11 +44,13 @@ public class StartCommand implements IHandler {
 
 
         FolderWatcher watcher = new FolderWatcher(".");
-        if(sseEnabled) watcher.startWatching(new SSESend());
         if(webhookEnabled) {
             System.out.println("Started webhook sender.");
-            watcher.startWatching(new WebhookSend());
+            watcher.addCallBack(new WebhookSend());
         }
+        
+        if(sseEnabled) watcher.addCallBack(new SSESend());
+        watcher.startWatching();
     }
 
     @Override

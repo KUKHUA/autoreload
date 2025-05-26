@@ -20,17 +20,21 @@ package http;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.Headers;
 import java.io.IOException;
 
 public class SSEConnect implements HttpHandler {
     public void handle(HttpExchange t){
         try {
-            t.getResponseHeaders().set("Content-Type", "text/event-stream");
-            t.getResponseHeaders().set("Connection", "keep-alive");
-            t.getResponseHeaders().set("Cache-Control", "no-cache");
+            Headers headers = t.getResponseHeaders();
+            headers.set("Cache-Control", "no-cache");
+            headers.set("Access-Control-Allow-Origin", "*");
+            headers.set("Access-Control-Allow-Methods", "*");
+            headers.set("Access-Control-Allow-Headers", "*");
+            headers.set("Content-Type", "text/event-stream");
+            headers.set("Connection", "keep-alive");
+
             t.sendResponseHeaders(200, 0);
-            t.getResponseBody().write("data: conntected\n\n".getBytes());
-            t.getResponseBody().flush();
             ClientStore.get().addClient(t);
             System.out.println("New SSE client connected.");
         } catch(IOException e ){

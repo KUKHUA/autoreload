@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <script>
+    //Connect to sse
+    const eventSource = new EventSource("http://127.0.0.1:1993");
+    eventSource.onmessage = function (event) {
+      console.log("Received message:", event.data);
+      const data = JSON.parse(event.data);
+      console.log("Parsed data:", data);
+    };
+  </script>
+  <body></body>
+</html>

@@ -46,6 +46,20 @@ public class FileFilter {
     }
 
     public static String objectType(Path path){
-        return Files.isDirectory(path) ? "folder" : Files.isRegularFile(path) ? "file" : "magical thing";
+        return Files.isDirectory(path) ? "folder" : Files.isRegularFile(path) ? "file" : guess(path);
     }
+
+    private static String guess(Path path) {
+        String name = path.getFileName().toString();
+        if (name.isEmpty()) return "magical_thing";
+
+        if (name.contains(".")) {
+            return "maybe_file";
+        } else if (!name.contains(".")) {
+            return "maybe_folder";
+        } else {
+        return "magical_thing"; // fallback
+        }
+}
+
 }

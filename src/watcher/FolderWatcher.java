@@ -30,13 +30,16 @@ import java.nio.file.WatchKey;
 import java.nio.file.WatchService;
 import java.nio.file.WatchEvent.Kind;
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Map;
 import java.io.UncheckedIOException;
+import ANSI.Print;
 
 
 public final class FolderWatcher {
     private WatchService watcherService;
     private final Map<WatchKey, Path> keys = new HashMap<>();
+    private ArrayList<IWatchCallback> callbacks = new ArrayList<>();
 
     public FolderWatcher(String folderPath) {
         try {
@@ -68,7 +71,11 @@ public final class FolderWatcher {
             });
     }
 
-    public void startWatching(IWatchCallback callback){
+    public void addCallBack(IWatchCallback callback){
+        callbacks.add(callback);
+    }
+
+    public void startWatching(){
         Thread watcherThread = new Thread(() -> {
             try {
                 while (true) {
@@ -85,9 +92,20 @@ public final class FolderWatcher {
                         Path child = dir.resolve(name);
                         String changeType = kind.name();
 
-                        callback.onEvent(changeType, child.toString(), child.toAbsolutePath());
+                        for(IWatchCallback callback : callbacks){
+                            try {                       
+                                callback.onEvent(changeType, child.toString(), child.toAbsolutePath());
 
-                        // register newly creeated folders. 
+                            } catch(Exception e){
+
+                            ANSI.Print.setFront(196);
+                            System.out.println("Error while attemping to alert you. " + e.getMessage());
+
+                            e.printStackTrace();
+                            ANSI.Print.unsetFront();
+                            }
+                        }
+
                         if (kind == StandardWatchEventKinds.ENTRY_CREATE && Files.isDirectory(child)) {
                             this.registerAll(child);
                         }
