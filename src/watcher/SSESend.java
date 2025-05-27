@@ -28,6 +28,23 @@ import org.json.JSONObject;
 import org.json.JSONArray;
 
 
+/**
+ * The {@code SSESend} class implements the {@link IWatchCallback} interface and is responsible for
+ * sending JSON-formatted event data to connected clients via Server-Sent Events (SSE).
+ * <p>
+ * When an event occurs, the {@code onEvent} method is triggered, which:
+ * <ul>
+ *   <li>Filters the event using {@link FileFilter#isAllowed(Path)}.</li>
+ *   <li>Builds a JSON object representing the event using {@link GetEventJSON#run(String, String, Path)}.</li>
+ *   <li>Sends the JSON payload to each connected client via their SSE stream.</li>
+ * </ul>
+ * <p>
+ * @see IWatchCallback
+ * @see WebhookSend
+ * @see GetEventJSON
+ * @see FileFilter
+ */
+
 public final class SSESend implements IWatchCallback {
     public void onEvent(String changeType, String fullPath, Path path) {
         if(!FileFilter.isAllowed(path)) return;
@@ -41,7 +58,9 @@ public final class SSESend implements IWatchCallback {
                 client.getResponseBody().flush();
 
             } catch (Exception e) {
+                ANSI.Print.setFront(196);
                 System.out.println("Failed to notify client: " + e.getMessage());
+                ANSI.Print.unsetFront();
                 ClientStore.get().clients().remove(client);
                 continue;
             }

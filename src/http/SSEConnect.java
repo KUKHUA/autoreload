@@ -23,6 +23,10 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.Headers;
 import java.io.IOException;
 
+/**
+ * The {@code SSEConnect} class implements the HttpHandler interface to handle Server-Sent Events (SSE) connections.
+ * It sets the appropriate headers for SSE and adds the client to a store for managing active connections.
+ */
 public class SSEConnect implements HttpHandler {
     public void handle(HttpExchange t){
         try {

@@ -36,6 +36,27 @@ import java.io.UncheckedIOException;
 import ANSI.Print;
 
 
+/**
+ * FolderWatcher monitors a directory (and its subdirectories) for file system changes such as creation,
+ * deletion, and modification of files or directories. and notifies registered callbacks when changes occur.
+ * <p>
+ * Usage:
+ * <ul>
+ *   <li>Instantiate with the path to the folder to watch.</li>
+ *   <li>Add one or more {@link IWatchCallback} implementations via {@link #addCallBack(IWatchCallback)}.</li>
+ *   <li>Call {@link #startWatching()} to begin monitoring for changes.</li>
+ * </ul>
+ * </p>
+ *
+ * <p>
+ * The watcher runs in a separate thread and will recursively register all subdirectories.
+ * When a new directory is created, it is also registered for watching.
+ * </p>
+ * @see IWatchCallback
+ * @see WebhookSend
+ * @see SSESend
+ * @see WatchService
+ */
 public final class FolderWatcher {
     private WatchService watcherService;
     private final Map<WatchKey, Path> keys = new HashMap<>();

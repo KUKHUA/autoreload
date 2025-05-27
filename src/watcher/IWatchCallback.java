@@ -20,6 +20,13 @@ package watcher;
 
 import java.nio.file.Path;
 
+/**
+ * Callback interface for handling file system watch events.
+ * Implementations of this interface can be used to receive notifications
+ * when a file or directory changes.
+ * The {@code onEvent} method is called with the type of change, the full path
+ * of the file or directory, and the {@link Path} object representing the path.
+ */
 public interface IWatchCallback {
     void onEvent(String changeType, String fullPath, Path path);
 }

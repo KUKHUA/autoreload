@@ -21,6 +21,10 @@ package http;
 import com.sun.net.httpserver.HttpExchange;
 import java.util.ArrayList;
 
+/** 
+ * The {@code ClientStore} class is a singleton that manages a collection of active HTTP client connections.
+ * It allows adding new clients and retrieving the list of currently connected clients.
+ */
 public final class ClientStore {
 
     private ArrayList<HttpExchange> clients = new ArrayList<HttpExchange>();

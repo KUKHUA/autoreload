@@ -18,6 +18,11 @@
 
 package ANSI;
 
+/**
+ * The {@code Get} class provides static methods to retrieve ANSI escape codes for various text formatting options.
+ * These methods can be used to set or unset background and foreground colors, text styles such as bold, dim, underline, italic, and hidden text.
+ * It also includes methods to reset all formatting and clear the console screen.
+ */
 final public class Get {
     
     public static String setBack(int colorCode){

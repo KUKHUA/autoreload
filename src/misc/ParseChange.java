@@ -18,8 +18,26 @@
 
 package misc;
 
+/**
+ * Utility class for parsing file change event types into human-readable strings.
+ */
 public class ParseChange {
-    public static String parse(String toTranslate){
+
+    /**
+     * Translates a file change event type into a human-readable verb.
+     * <p>
+     * Supported event types:
+     * <ul>
+     *   <li>{@code ENTRY_MODIFY} - returns {@code "modified"}</li>
+     *   <li>{@code ENTRY_CREATE} - returns {@code "created"}</li>
+     *   <li>{@code ENTRY_DELETE} - returns {@code "deleted"}</li>
+     *   <li>Any other value - returns the input string unchanged</li>
+     * </ul>
+     *
+     * @param toTranslate the event type string to translate
+     * @return the corresponding human-readable verb, or the original string if not recognized.
+     */
+    public static String parse(String toTranslate) {
         switch(toTranslate){
             case "ENTRY_MODIFY":
                 return "modified";
@@ -35,7 +53,21 @@ public class ParseChange {
         }
     }
 
-        public static String parseion(String toTranslate){
+    /**
+     * Translates a file change event type into a human-readable noun.
+     * <p>
+     * Supported event types:
+     * <ul>
+     *   <li>{@code ENTRY_MODIFY} - returns {@code "modification"}</li>
+     *   <li>{@code ENTRY_CREATE} - returns {@code "creation"}</li>
+     *   <li>{@code ENTRY_DELETE} - returns {@code "deletion"}</li>
+     *   <li>Any other value - returns the input string unchanged</li>
+     * </ul>
+     *
+     * @param toTranslate the event type string to translate
+     * @return the corresponding human-readable noun, or the original string if not recognized.
+     */
+    public static String parseion(String toTranslate){
         switch(toTranslate){
             case "ENTRY_MODIFY":
                 return "modification";

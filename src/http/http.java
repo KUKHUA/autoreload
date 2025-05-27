@@ -23,6 +23,10 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 
+/**
+ * The {@code http} class provides a simple HTTP server implementation using the HttpServer class.
+ * It allows starting the server on a specified port and adding custom handlers for different paths.
+ */
 public class http {
 
     int port;

@@ -26,6 +26,10 @@ import watcher.SSESend;
 import watcher.WebhookSend;
 import watcher.FolderWatcher; 
 
+/**
+ * The {@code StartCommand} class implements the IHandler interface to handle the start command for the application.
+ * It initializes and starts the FolderWatcher, sets up Server-Sent Events (SSE) if enabled, and configures webhook sending.
+ */
 public class StartCommand implements IHandler {
     @Override
     public void handleCommand(Command command) throws Exception {

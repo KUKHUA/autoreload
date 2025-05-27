@@ -25,6 +25,10 @@ package ANSI;
  - 
 */
 
+/**
+ * The {@code Print} class provides methods to control text formatting in the console using ANSI escape codes. 
+ * This class automactically prints the appropriate ANSI codes to set or unset text attributes such as foreground and background colors, bold, dim, underline, italic, and hidden text.
+ */
 final public class Print {
     
     public static void setBack(int colorCode){

@@ -23,6 +23,11 @@ import java.util.Scanner;
 import misc.Config;
 import ANSI.Print;
 
+/**
+ * The {@code SetupCommand} class implements the IHandler interface to provide an interactive setup procedure for configuring the application.
+ * It allows users to enable or disable Server-Sent-Events (SSE) and webhooks, and to specify the port for SSE and URLs for webhooks.
+ * The configuration is saved using the Config class.
+ */
 public class SetupCommand implements IHandler {
     @Override
     public void handleCommand(Command command) throws Exception {

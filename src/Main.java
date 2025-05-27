@@ -17,8 +17,6 @@
  */
 
 import Command.Manager;
-import java.io.IOException;
-import watcher.FolderWatcher;
 import commands.SetupCommand;
 import commands.StartCommand;
 import ANSI.Get;

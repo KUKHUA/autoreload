@@ -22,6 +22,13 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.File;
 
+/**
+ * The {@code Config} class provides a singleton instance to manage application configuration.
+ * It allows reading and writing properties from a configuration file named ".changedetecter.properties".
+ * The configuration file is created in the current working directory if it does not exist.
+ * The class ensures that the configuration is loaded only once and provides methods to access and modify the properties.  
+ *  The save method persists any changes made to the properties back to the configuration file. It is not automatically saved after each change, allowing for batch updates.
+ */
 public final class Config {
     private static Config instance;
     private final String configName = ".changedetecter.properties";
