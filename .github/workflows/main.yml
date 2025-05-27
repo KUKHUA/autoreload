@@ -1,0 +1,40 @@
+name: Java Build and Run
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+          
+
+    - name: Set up JDK
+      uses: actions/setup-java@v4.7.0
+      with:
+        java-version: '21'
+        distribution: 'temurin'
+        
+    - name: Build classes
+      run: |
+        ls -R ./src  # List the directory structure recursively
+        find ./src -name "*.java" > sources.txt
+        javac -d ./classes @sources.txt  # Use the list of found files for compilation
+
+    - name: Package
+      run: |
+        jar cfe ./dist/changedetector.jar Main -C ./classes .
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v4.6.1
+      with:
+        name: jsb
+        path: ./dist/jsb.jar
