@@ -59,7 +59,7 @@ public final class SSESend implements IWatchCallback {
 
             } catch (Exception e) {
                 ANSI.Print.setFront(196);
-                System.out.println("Failed to notify client: " + e.getMessage());
+                System.out.println("One of the clients has disconnected, removing it from the list.");
                 ANSI.Print.unsetFront();
                 ClientStore.get().clients().remove(client);
                 continue;
