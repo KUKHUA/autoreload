@@ -9,3 +9,4 @@ lib
 *.jar
 /lib/*
 /lib
+*.json

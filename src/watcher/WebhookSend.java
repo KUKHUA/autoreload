@@ -59,7 +59,7 @@ public final class WebhookSend implements IWatchCallback {
         JSONObject object = GetEventJSON.run(changeType, fullPath, path);
         
         Config config = Config.instance();
-        String inputArrayString = config.get("sources.webhook.urls");
+        String inputArrayString = config.getDefault("sources.webhook.urls","null,null");
         String[] webHookList = Arrays.stream(inputArrayString.split(","))
             .map(String::trim)
             .filter(string -> !string.equalsIgnoreCase("null"))

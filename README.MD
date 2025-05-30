@@ -5,6 +5,15 @@ ChangeDetector is a program that detects modifications, deletions, or creations 
 ## Usage
 To setup ChangeDetector, run: `changedetector setup`. You'll be guided through a few prompts to configure the program.
 
+Some configuration is not avaiable in setup command yet:
+* blacklisted.files - Comma-seperated list of files names to exclude.
+ 
+    *Example:*  `"blacklisted.files": "Config.java,FileFilter.java`
+* blacklisted.folders - Comma-separated list of folder paths to exclude from monitoring. Please not that where you run this from will have a `.`. For example, instead of `"/home/u/Git/Projects/autoreload/src/http,"`, you will have to do `"/home/u/Git/Projects/autoreload/./src/http,"`, if you are running it from the autoreload folder.
+
+    *Example:* `"blacklisted.folders": "/home/lucas/Gits/Java Projects/autoreload/./src/http,null"`
+
+
 Once setup is complete, start monitoring the current folder with:
 After that, run `changedetector start` to actually start watching the current folder.
 

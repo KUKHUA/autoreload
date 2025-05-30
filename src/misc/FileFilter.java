@@ -19,6 +19,7 @@
 package misc; 
 
 import java.nio.file.*; 
+import java.util.Arrays;
 
 /**
  * The {@code FileFilter} class provides utility methods for filtering and classifying file paths.
@@ -45,7 +46,9 @@ public class FileFilter {
      */
     public static boolean isAllowed(Path path) {
         try {
-            if (path.getParent().toString().chars().filter(ch -> ch == '.').count() == 2) return false; // hidden folders
+            if(isBlacklisted(path)) return false;
+
+            if (path.getParent().toString().chars().filter(ch -> ch == '.').count() == 2) return false; // hide stuff with more than two dots
 
             if (path.getFileName().toString().endsWith(".part")) return false; // hide parts of a file
 
@@ -89,23 +92,42 @@ public class FileFilter {
      *     <li>If the filename is empty, it's considered a "magical_thing".</li>
      *     <li>If the filename contains a dot ('.'), it's guessed to be a "maybe_file".</li>
      *     <li>If the filename does not contain a dot, it's guessed to be a "maybe_folder".</li>
-     *     <li>As a final fallback, it returns "magical_thing".</li>
-     * </ul>
      *
      * @param path The {@link Path} whose type is to be guessed.
      * @return A string representing the guessed type: "maybe_file", "maybe_folder", or "magical_thing".
      */
     private static String guess(Path path) {
         String name = path.getFileName().toString();
-        if (name.isEmpty()) return "magical_thing";
 
         if (name.contains(".")) {
             return "maybe_file";
         } else if (!name.contains(".")) {
             return "maybe_folder";
-        } else {
-        return "magical_thing"; 
         }
-}
+
+        return "magical_thing";
+    }
+
+    public static boolean isBlacklisted(Path path){
+        Config config = Config.instance();
+
+        String blacklistedFileString = config.getDefault("blacklisted.files","null,null");
+        String[] blacklistedFileArray = Arrays.stream(blacklistedFileString.split(","))
+            .map(String::trim)
+            .filter(string -> !string.equalsIgnoreCase("null"))
+            .toArray(String[]::new);
+
+        
+        String blacklistedFolderString = config.getDefault("blacklisted.folders","null,null");
+        String[] blacklistedFolderArray = Arrays.stream(blacklistedFolderString.split(","))
+            .map(String::trim)
+            .filter(string -> !string.equalsIgnoreCase("null"))
+            .toArray(String[]::new);
+
+        boolean hasBlacklistedFolder = Arrays.asList(blacklistedFolderArray).contains(path.getParent().toString());
+        boolean hasBlackListedFile = Arrays.asList(blacklistedFileArray).contains(path.getFileName().toString());
+
+        return hasBlackListedFile || hasBlacklistedFolder;
+    }
 
 }

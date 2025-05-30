@@ -91,6 +91,8 @@ public class SetupCommand implements IHandler {
 
       config.set("sources.webhook.enabled", Boolean.toString(webhookEnable));
       config.set("sources.webhook.urls", String.join(",", webhooks));
+      config.set("blacklisted.files", "null,null");
+      config.set("blacklisted.folders", "null,null");
       
       config.save();
     }

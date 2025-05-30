@@ -17,80 +17,66 @@
  */
 
 package misc;
-import java.util.Properties;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.File;
+
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.*;
 
 /**
  * The {@code Config} class provides a singleton instance to manage application configuration.
- * It allows reading and writing properties from a configuration file named ".changedetecter.properties".
  * The configuration file is created in the current working directory if it does not exist.
- * The class ensures that the configuration is loaded only once and provides methods to access and modify the properties.  
  *  The save method persists any changes made to the properties back to the configuration file. It is not automatically saved after each change, allowing for batch updates.
  */
 public final class Config {
+    private final String configFileName = "changedetector.json";
+    private JSONObject config;
+    private File configFile;
     private static Config instance;
-    private final String configName = ".changedetecter.properties";
-    private boolean isReady = false;
-    private Properties propertiesInstance;
 
-    private Config(){}
+    private Config(){
+        this.configFile = new File(configFileName);
+        this.load();
+    }
 
     public static Config instance(){
         if(instance == null) instance = new Config();
         return instance;
     }
 
-    private void initConfig(){
-        this.isReady = true;
-        final String fullPropertiesPath = System.getProperty("user.dir") + File.separator + configName;
-
-        this.propertiesInstance = new Properties();
-        File configFile = new File(fullPropertiesPath);
-
-        try {
-             if (!configFile.exists()) configFile.createNewFile();
-        } catch (Exception e){
-            throw new RuntimeException("Unable to create file.\n" + e);
-        }
-
-        try (FileInputStream fis = new FileInputStream(fullPropertiesPath)) {
-            propertiesInstance.load(fis);
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to load configuration file.\n" + e);
-        }
-
-    }
-
-    public boolean isReady(){
-        return this.isReady;
-    }
-
-    public String get(String key){
-        if(!isReady) this.initConfig();
-        return propertiesInstance.getProperty(key);
-    }
-
     public String getDefault(String key, String defaultValue){
-        if(!isReady) this.initConfig();
-        return propertiesInstance.getProperty(key,defaultValue);
+        return config.optString(key,defaultValue);
     }
 
-    public Object set(String key, String value){
-        if(!isReady) this.initConfig();
-        return propertiesInstance.setProperty(key,value);
+    public void set(String key, String value){
+        config.put(key, value);
+    }
+
+    public JSONObject object(){
+        return config;
     }
 
     public void save(){
-        if (!isReady) this.initConfig();
-        final String fullPropertiesPath = System.getProperty("user.dir") + File.separator + configName;
-
-        try (FileOutputStream out = new FileOutputStream(fullPropertiesPath)) {
-            propertiesInstance.store(out, "Updated config");
-        } catch (Exception e) {
-            throw new RuntimeException("Unable to save configuration file.\n" + e);
+        try (FileWriter writer = new FileWriter(configFile)) {
+            writer.write(config.toString(4));
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
+    private void load(){
+        if (!configFile.exists()){
+            config = new JSONObject();
+            this.save();
+            return;
+        }
+
+        try (FileReader reader = new FileReader(configFile)) {
+            JSONTokener tokener = new JSONTokener(reader);
+            config = new JSONObject(tokener);
+        } catch (IOException e) {
+            e.printStackTrace();
+            config = new JSONObject();
+        }
+    }
 }
