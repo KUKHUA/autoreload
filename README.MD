@@ -14,8 +14,7 @@ Some configuration is not avaiable in setup command yet:
     *Example:* `"blacklisted.folders": "/home/lucas/Gits/Java Projects/autoreload/./src/http,null"`
 
 
-Once setup is complete, start monitoring the current folder with:
-After that, run `changedetector start` to actually start watching the current folder.
+Once setup is complete, start monitoring the current folder with: `changedetector start`.
 
 ### Example: Auto-Reloading a Development Webpage
 
@@ -35,7 +34,7 @@ eventSource.onmessage = function (event) {
 ## Installation
 ### Pre-Built
 1. Download the latest `changedetector.jar` release [here](https://github.com/KUKHUA/changedetecter/releases).
-3. Make sure you have Java installed. You can adopt this Java, if you want. https://adoptium.net/
+3. Make sure you have Java installed. You can adopt this Java: https://adoptium.net/
 2. Add this to your path.
     * On Windows:
         1.  Place `changedetector.jar` in a permanent location, such as `C:\changedetector.jar`.
@@ -73,7 +72,7 @@ eventSource.onmessage = function (event) {
     git clone https://github.com/KUKHUA/changedetecter.git
     cd changedetecter
     find ./src -name "*.java" > sources.txt
-    javac -d ./classes @sources.txt  # Use the list of found files for compilation
+    javac -d ./classes @sources.txt
     jar cfe ./dist/changedetector.jar Main -C ./classes .
     echo "its built to ./dist/changedetector.jar"
 ````
