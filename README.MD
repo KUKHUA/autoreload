@@ -2,6 +2,8 @@
 
 ChangeDetector is a program that detects modifications, deletions, or creations of files and folders within the current directory. It then sends details about these changes to various sources (SSE, webhooks)
 
+![https://raw.githubusercontent.com/KUKHUA/changedetecter/refs/heads/main/htmlreloaddemo.webm]
+
 ## Usage
 To setup ChangeDetector, run: `changedetector setup`. You'll be guided through a few prompts to configure the program.
 
